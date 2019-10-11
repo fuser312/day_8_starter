@@ -113,17 +113,23 @@ class _InputPageState extends State<InputPage> {
                       ),
                     ],
                   ),
-                  Slider(
-                    min: 110,
-                    max: 210,
-                    //divisions: 1,
-                    value: heightValue,
-                    onChanged: (newHeightValue){
-                      setState(() {
-                        heightValue = newHeightValue;
-                      });
-                    },
+                  SliderTheme(
+                    data: SliderThemeData(thumbColor: Colors.pink,
+                      activeTrackColor: activeTextColor,
+                      inactiveTrackColor: inactiveTextColor
+                    ),
+                    child: Slider(
+                      min: 110,
+                      max: 210,
+                      //divisions: 1,
+                      value: heightValue,
+                      onChanged: (newHeightValue){
+                        setState(() {
+                          heightValue = newHeightValue;
+                        });
+                      },
 
+                    ),
                   )
                 ],
               ),
