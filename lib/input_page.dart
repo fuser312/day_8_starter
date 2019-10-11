@@ -11,12 +11,18 @@ enum Gender{
   male, female
 }
 
+
+
 class _InputPageState extends State<InputPage> {
   Gender gender;
   Color activeCardColor =  Color(0xFF1D1F31);
   Color inactiveCardColor =  Color(0xFF111328);
+  Color activeTextColor = Colors.white;
+  Color inactiveTextColor = Colors.white70;
+  double heightValue = 110;
   @override
   Widget build(BuildContext context) {
+
 
     return Scaffold(
       appBar: AppBar(
@@ -43,7 +49,7 @@ class _InputPageState extends State<InputPage> {
                         ),
                         Text(
                           'MALE',
-                          style: TextStyle(fontSize: 24),
+                          style: TextStyle(fontSize: 24, color: gender == Gender.male ? activeTextColor : inactiveTextColor),
                         )
                       ],
                     ),
@@ -71,7 +77,7 @@ class _InputPageState extends State<InputPage> {
                         ),
                         Text(
                           'FEMALE',
-                          style: TextStyle(fontSize: 24),
+                          style: TextStyle(fontSize: 24, color: gender == Gender.female ? activeTextColor : inactiveTextColor),
                         )
                       ],
                     ),
@@ -101,7 +107,7 @@ class _InputPageState extends State<InputPage> {
                     crossAxisAlignment: CrossAxisAlignment.baseline,
                     textBaseline: TextBaseline.alphabetic,
                     children: <Widget>[
-                      Text("183", style: TextStyle(fontSize: 42, fontWeight: FontWeight.bold),
+                      Text("${heightValue.toInt()}", style: TextStyle(fontSize: 42, fontWeight: FontWeight.bold),
                       ),
                       Text("cm", style: TextStyle(fontSize: 24),
                       ),
@@ -110,7 +116,13 @@ class _InputPageState extends State<InputPage> {
                   Slider(
                     min: 110,
                     max: 210,
-                    value: ,
+                    //divisions: 1,
+                    value: heightValue,
+                    onChanged: (newHeightValue){
+                      setState(() {
+                        heightValue = newHeightValue;
+                      });
+                    },
 
                   )
                 ],
