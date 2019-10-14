@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'reusableCard.dart';
+import 'button.dart';
+import 'results_page.dart';
 
 class InputPage extends StatefulWidget {
   @override
@@ -11,6 +14,10 @@ enum Gender{
   male, female
 }
 
+const TextStyle kLabelNumberStyle =  TextStyle(fontSize: 42, fontWeight: FontWeight.bold);
+const TextStyle kLabelTextStyle = TextStyle(fontSize: 24, letterSpacing: 1, color: Colors.grey, fontWeight: FontWeight.bold);
+
+
 
 
 class _InputPageState extends State<InputPage> {
@@ -20,9 +27,12 @@ class _InputPageState extends State<InputPage> {
   Color activeTextColor = Colors.white;
   Color inactiveTextColor = Colors.white70;
   double heightValue = 110;
+  int weight = 68;
+  int age = 25;
+  double bmi;
   @override
   Widget build(BuildContext context) {
-
+  bmi = weight/((heightValue * heightValue)/10000);
 
     return Scaffold(
       appBar: AppBar(
@@ -32,6 +42,7 @@ class _InputPageState extends State<InputPage> {
       body: Column(
         children: <Widget>[
           Expanded(
+            flex: 4,
             child: Row(
               children: <Widget>[
                 Expanded(
@@ -95,19 +106,20 @@ class _InputPageState extends State<InputPage> {
             ),
           ),
           Expanded(
+            flex: 3,
             child: ReusableCard(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Text("HEIGHT", style: TextStyle(fontSize: 24),textAlign: TextAlign.center,
+                  Text("HEIGHT", style: TextStyle(fontSize: 20),textAlign: TextAlign.center,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.baseline,
                     textBaseline: TextBaseline.alphabetic,
                     children: <Widget>[
-                      Text("${heightValue.toInt()}", style: TextStyle(fontSize: 42, fontWeight: FontWeight.bold),
+                      Text("${heightValue.toInt()}", style: kLabelNumberStyle,
                       ),
                       Text("cm", style: TextStyle(fontSize: 24),
                       ),
@@ -116,12 +128,12 @@ class _InputPageState extends State<InputPage> {
                   SliderTheme(
                     data: SliderThemeData(thumbColor: Colors.pink,
                       activeTrackColor: activeTextColor,
-                      inactiveTrackColor: inactiveTextColor
+                      inactiveTrackColor: inactiveTextColor,
+
                     ),
                     child: Slider(
                       min: 110,
                       max: 210,
-                      //divisions: 1,
                       value: heightValue,
                       onChanged: (newHeightValue){
                         setState(() {
@@ -136,45 +148,109 @@ class _InputPageState extends State<InputPage> {
             ),
           ),
           Expanded(
+            flex: 4,
             child: Row(
               children: <Widget>[
                 Expanded(
-                  child: ReusableCard(),
+                  child: ReusableCard(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text("WEIGHT", style: kLabelTextStyle,),
+                        Text("$weight", style: kLabelNumberStyle,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          children: <Widget>[
+                             Button(
+                               icon: Icon(Icons.remove, size: 32,),
+                               callback: (){
+                                 setState(() {
+                                   weight--;
+                                 });
+                               },
+                             ),
+                            Button(
+                              icon: Icon(Icons.add, size: 32,),
+                              callback: (){
+                                setState(() {
+                                  weight++;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
                 Expanded(
-                  child: ReusableCard(),
+                  child: ReusableCard(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text("AGE", style: kLabelTextStyle,),
+                          Text("$age", style: kLabelNumberStyle,),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Button(
+                                icon: Icon(Icons.remove, size: 32,),
+                                callback: (){
+                                  setState(() {
+                                    age--;
+                                  });
+                                },
+                              ),
+                              Button(
+                                icon: Icon(Icons.add, size: 32,),
+                                callback: (){
+                                  setState(() {
+                                    age++;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                  ),
                 )
               ],
             ),
           ),
+
+          Expanded(
+            flex: 1,
+            child: Container(
+              color: Colors.pink,
+              width: double.infinity,
+              height: 8,
+              child: FlatButton(
+                onPressed: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ResultPage(
+                             bmi
+                          )
+                      )
+                  );
+                },
+                child: Text(
+                  "CALCULATE YOUR BMI",
+                  style: TextStyle(color: Colors.white, fontSize: 24),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );
   }
 }
 
-class ReusableCard extends StatelessWidget {
-  final Color color;
-  final Widget child;
-  final Function tapCallback;
 
-  ReusableCard(
-      {this.color = const Color(0xFF1D1F31), this.child, this.tapCallback});
 
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: tapCallback,
-      child: Container(
-        margin: EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.all(
-            Radius.circular(12),
-          ),
-        ),
-        child: child,
-      ),
-    );
-  }
-}
