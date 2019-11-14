@@ -4,7 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'reusableCard.dart';
 import 'button.dart';
 import 'results_page.dart';
-
 class InputPage extends StatefulWidget {
   @override
   _InputPageState createState() => _InputPageState();
@@ -16,15 +15,11 @@ enum Gender{
 
 const TextStyle kLabelNumberStyle =  TextStyle(fontSize: 42, fontWeight: FontWeight.bold);
 const TextStyle kLabelTextStyle = TextStyle(fontSize: 24, letterSpacing: 1, color: Colors.grey, fontWeight: FontWeight.bold);
-const TextStyle kLabelNumberStyleLandscape =  TextStyle(fontSize: 24, fontWeight: FontWeight.bold);
-const TextStyle kLabelTextStyleLandscape = TextStyle(fontSize: 16,  color: Colors.grey, fontWeight: FontWeight.bold);
-
-
 
 class _InputPageState extends State<InputPage> {
   Gender gender;
-  Color activeCardColor =  Color(0xFF1D1F31);
-  Color inactiveCardColor =  Color(0xFF111328);
+  Color inactiveCardColor =  Color(0xFF1D1F31);
+  Color activeCardColor =  Color(0xFF111328);
   Color activeTextColor = Colors.white;
   Color inactiveTextColor = Colors.white70;
   double heightValue = 110;
@@ -239,14 +234,7 @@ class _InputPageState extends State<InputPage> {
               height: 8,
               child: FlatButton(
                 onPressed: (){
-                 Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ResultPage(
-                             bmi
-                          )
-                      )
-                  );
+                Navigator.of(context).push(FadeRouteBuilder(bmi));
                  },
                 child: Text(
                   "CALCULATE YOUR BMI",
@@ -467,14 +455,7 @@ class _InputPageState extends State<InputPage> {
               height: MediaQuery.of(context).size.height*0.15,
               child: FlatButton(
                 onPressed: (){
-                 Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ResultPage(
-                             bmi
-                          )
-                      )
-                  );
+                 Navigator.of(context).push(FadeRouteBuilder(bmi));
                  },
                 child: Text(
                   "CALCULATE YOUR BMI",
@@ -489,5 +470,20 @@ class _InputPageState extends State<InputPage> {
   }
 }
 
+Route FadeRouteBuilder(bmi) {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => ResultPage(bmi),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      var begin = Offset(0.0, 1.0);
+      var end = Offset.zero;
+      var curve = Curves.ease;
 
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
+}
