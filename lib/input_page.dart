@@ -34,15 +34,15 @@ class _InputPageState extends State<InputPage> {
   @override
   Widget build(BuildContext context) {
   bmi = weight/((heightValue/100 * heightValue/100));
-  double sizeOficon(){
-  if(MediaQuery.of(context).orientation == Orientation.portrait){
-    return 100;
+  
+  if (MediaQuery.of(context).orientation == Orientation.portrait) {
+      return portrait();
+    } else {
+      return landscape();
     }
-  else{
-    return 60;
   }
-}
 
+    Widget portrait(){
     return Scaffold(
       appBar: AppBar(
         title: Text('BMI CALCULATOR'),
@@ -63,7 +63,7 @@ class _InputPageState extends State<InputPage> {
                       children: <Widget>[
                         Icon(
                           FontAwesomeIcons.mars,
-                          size : sizeOficon()
+                          size : 100
                         ),
                         SizedBox(
                           height: 10,
@@ -91,7 +91,7 @@ class _InputPageState extends State<InputPage> {
                       children: <Widget>[
                         Icon(
                           FontAwesomeIcons.venus,
-                          size: sizeOficon(),
+                          size: 100,
                         ),
                         SizedBox(
                           height: 10,
@@ -247,11 +247,7 @@ class _InputPageState extends State<InputPage> {
                           )
                       )
                   );
-                             
-                          
-                      
-                  
-                },
+                 },
                 child: Text(
                   "CALCULATE YOUR BMI",
                   style: TextStyle(color: Colors.white, fontSize: 24),
@@ -262,6 +258,233 @@ class _InputPageState extends State<InputPage> {
           )
         ],
       ),
+    );
+  }
+
+
+    Widget landscape(){
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('BMI CALCULATOR'),
+        centerTitle: true,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(12),
+        children: <Widget>[
+          Container(
+            height: MediaQuery.of(context).size.height*0.50,
+            width: MediaQuery.of(context).size.width*0.25,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Expanded(
+                  flex: 2,
+                      child: ReusableCard(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            FontAwesomeIcons.mars,
+                            size : 100
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            'MALE',
+                            style: TextStyle(fontSize: 24, color: gender == Gender.male ? activeTextColor : inactiveTextColor),
+                          )
+                        ],
+                      ),
+                      color: gender == Gender.male ? activeCardColor : inactiveCardColor,
+                      tapCallback: () {
+                        setState(() {
+                          gender = Gender.male;
+                        });
+                      },
+                    ),
+                ),
+                  Expanded(
+                    flex: 2,
+                      child: ReusableCard(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            FontAwesomeIcons.venus,
+                            size: 100,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            'FEMALE',
+                            style: TextStyle(fontSize: 24, color: gender == Gender.female ? activeTextColor : inactiveTextColor),
+                          )
+                        ],
+                      ),
+                      color: gender == Gender.female ? activeCardColor : inactiveCardColor,
+                      tapCallback: () {
+                        setState(() {
+                          gender = Gender.female;
+                        });
+                      },
+                    ),
+                  ),
+
+              ],
+            ),
+
+          ),
+          Container(
+            height: MediaQuery.of(context).size.height*0.50,
+            width: MediaQuery.of(context).size.width*0.25,
+            child: ReusableCard(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Text("HEIGHT", style: TextStyle(fontSize: 20),textAlign: TextAlign.center,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: <Widget>[
+                      Text("${heightValue.toInt()}", style: kLabelNumberStyle,
+                      ),
+                      Text("cm", style: TextStyle(fontSize: 24),
+                      ),
+                    ],
+                  ),
+                  SliderTheme(
+                    data: SliderThemeData(thumbColor: Colors.pink,
+                      activeTrackColor: activeTextColor,
+                      inactiveTrackColor: inactiveTextColor,
+
+                    ),
+                    child: Slider(
+                      min: 110,
+                      max: 210,
+                      value: heightValue,
+                      onChanged: (newHeightValue){
+                        setState(() {
+                          heightValue = newHeightValue;
+                        });
+                      },
+
+                    ),
+                  )
+                ],
+              ),
+            ),
+          
+          ),
+          Container(
+            height: MediaQuery.of(context).size.height*0.50,
+            width: MediaQuery.of(context).size.width*0.25,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Expanded(
+                  flex: 2,
+                  child: ReusableCard(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text("WEIGHT", style: kLabelTextStyle,),
+                        Text("$weight", style: kLabelNumberStyle,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          children: <Widget>[
+                             Button(
+                               icon: Icon(Icons.remove, size: 32,),
+                               callback: (){
+                                 setState(() {
+                                   weight--;
+                                 });
+                               },
+                             ),
+                            Button(
+                              icon: Icon(Icons.add, size: 32,),
+                              callback: (){
+                                setState(() {
+                                  weight++;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
+                ),
+                Expanded(
+                  flex: 2,
+                  child: ReusableCard(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text("AGE", style: kLabelTextStyle,),
+                          Text("$age", style: kLabelNumberStyle,),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Button(
+                                icon: Icon(Icons.remove, size: 32,),
+                                callback: (){
+                                  setState(() {
+                                    age--;
+                                  });
+                                },
+                              ),
+                              Button(
+                                icon: Icon(Icons.add, size: 32,),
+                                callback: (){
+                                  setState(() {
+                                    age++;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                  ),
+
+                ),
+              ],
+            ),
+          ),
+          Container(
+              color: Colors.pink,
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height*0.15,
+              child: FlatButton(
+                onPressed: (){
+                 Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ResultPage(
+                             bmi
+                          )
+                      )
+                  );
+                 },
+                child: Text(
+                  "CALCULATE YOUR BMI",
+                  style: TextStyle(color: Colors.white, fontSize: 24),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+        ],
+      )
     );
   }
 }

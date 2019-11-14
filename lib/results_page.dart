@@ -45,14 +45,14 @@ class ResultPage extends StatelessWidget {
     }
 
      if (MediaQuery.of(context).orientation == Orientation.portrait) {
-      return portrait();
+      return portrait(context);
     } else {
-      return landscape();
+      return landscape(context);
     }
   }
 
     
-    Widget portrait(){
+    Widget portrait(BuildContext context){
     return Scaffold(
       appBar: AppBar(
         title: Text('Your BMI RESULT'),
@@ -135,7 +135,7 @@ class ResultPage extends StatelessWidget {
       ),
     );
     }
-    Widget landscape(){
+    Widget landscape(BuildContext context){
     return Scaffold(
       appBar: AppBar(
         title: Text('Your BMI RESULT'),
