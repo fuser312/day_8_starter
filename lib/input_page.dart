@@ -16,7 +16,8 @@ enum Gender{
 
 const TextStyle kLabelNumberStyle =  TextStyle(fontSize: 42, fontWeight: FontWeight.bold);
 const TextStyle kLabelTextStyle = TextStyle(fontSize: 24, letterSpacing: 1, color: Colors.grey, fontWeight: FontWeight.bold);
-
+const TextStyle kLabelNumberStyleLandscape =  TextStyle(fontSize: 24, fontWeight: FontWeight.bold);
+const TextStyle kLabelTextStyleLandscape = TextStyle(fontSize: 16,  color: Colors.grey, fontWeight: FontWeight.bold);
 
 
 
@@ -32,7 +33,15 @@ class _InputPageState extends State<InputPage> {
   double bmi;
   @override
   Widget build(BuildContext context) {
-  bmi = weight/((heightValue * heightValue)/10000);
+  bmi = weight/((heightValue/100 * heightValue/100));
+  double sizeOficon(){
+  if(MediaQuery.of(context).orientation == Orientation.portrait){
+    return 100;
+    }
+  else{
+    return 60;
+  }
+}
 
     return Scaffold(
       appBar: AppBar(
@@ -46,6 +55,7 @@ class _InputPageState extends State<InputPage> {
             child: Row(
               children: <Widget>[
                 Expanded(
+                  flex: 2,
                   child: ReusableCard(
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
@@ -53,7 +63,7 @@ class _InputPageState extends State<InputPage> {
                       children: <Widget>[
                         Icon(
                           FontAwesomeIcons.mars,
-                          size: 100,
+                          size : sizeOficon()
                         ),
                         SizedBox(
                           height: 10,
@@ -69,11 +79,11 @@ class _InputPageState extends State<InputPage> {
                       setState(() {
                         gender = Gender.male;
                       });
-                      print('Male selected');
                     },
                   ),
                 ),
                 Expanded(
+                  flex: 2,
                   child: ReusableCard(
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
@@ -81,7 +91,7 @@ class _InputPageState extends State<InputPage> {
                       children: <Widget>[
                         Icon(
                           FontAwesomeIcons.venus,
-                          size: 100,
+                          size: sizeOficon(),
                         ),
                         SizedBox(
                           height: 10,
@@ -97,8 +107,6 @@ class _InputPageState extends State<InputPage> {
                       setState(() {
                         gender = Gender.female;
                       });
-
-                      print('Female selected');
                     },
                   ),
                 )
@@ -152,6 +160,7 @@ class _InputPageState extends State<InputPage> {
             child: Row(
               children: <Widget>[
                 Expanded(
+                  flex: 2,
                   child: ReusableCard(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -185,6 +194,7 @@ class _InputPageState extends State<InputPage> {
                   ),
                 ),
                 Expanded(
+                  flex: 2,
                   child: ReusableCard(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -229,7 +239,7 @@ class _InputPageState extends State<InputPage> {
               height: 8,
               child: FlatButton(
                 onPressed: (){
-                  Navigator.push(
+                 Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => ResultPage(
@@ -237,6 +247,10 @@ class _InputPageState extends State<InputPage> {
                           )
                       )
                   );
+                             
+                          
+                      
+                  
                 },
                 child: Text(
                   "CALCULATE YOUR BMI",
