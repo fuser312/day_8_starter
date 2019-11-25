@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'reusableCard.dart';
 import 'package:share/share.dart';
-import 'input_page.dart';
 
 class ResultPage extends StatelessWidget {
   double bmi;
