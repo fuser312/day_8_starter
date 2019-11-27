@@ -51,10 +51,13 @@ class _InputPageState extends State<InputPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Text(
-                    "HEIGHT",
-                    style: TextStyle(fontSize: 20),
-                    textAlign: TextAlign.center,
+                  Padding(
+                    padding: const EdgeInsets.only(top : 6.0),
+                    child: Text(
+                      "HEIGHT",
+                      style: TextStyle(fontSize: 24),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -232,19 +235,19 @@ class _InputPageState extends State<InputPage> {
       body: Column(
         children: <Widget>[
           Expanded(
-            flex: 4,
+            flex: 6,
             child: GenderCard(),
           ),
           Expanded(
-            flex: 3,
+            flex: 5,
             child: yourHeight(),
           ),
           Expanded(
-            flex: 4,
+            flex: 6,
             child: ageAndWeight(),
           ),
           Expanded(
-            flex: 1,
+            flex: 2,
             child: calculateButton(),
           )
         ],
